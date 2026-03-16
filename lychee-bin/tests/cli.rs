@@ -3807,6 +3807,25 @@ The config file should contain every possible key for documentation purposes."
             .stderr(contains("[WARN] No URLs found in XML input."));
     }
 
+    #[tokio::test]
+    async fn test_set_bool_to_false() {
+        let mock_server_timeout = mock_server!(StatusCode::OK, set_delay(Duration::from_secs(30)));
+
+        cargo_bin_cmd!()
+            .arg("--max-retries=0")
+            .arg("--timeout=1")
+            .arg("--accept-timeouts=false")
+            .arg("-")
+            .write_stdin(mock_server_timeout.uri())
+            .assert()
+            .failure()
+            .code(2)
+            .stdout(contains(format!(
+                r#"[TIMEOUT] {}/ (at 1:1) | Timeout"#,
+                mock_server_timeout.uri()
+            )));
+    }
+
     /// URLs should NOT be downloaded fully, unless fragment checking is on and the link has a fragment.
     #[test]
     fn test_large_file_lazy_download() {

@@ -453,14 +453,24 @@ pub(crate) struct Config {
 
     /// Accept timed out requests and return exit code 0
     /// when encountering timeouts but not any other errors.
-    #[arg(long)]
+    #[arg(
+        long,
+        default_missing_value = "true",
+        num_args = 0..=1,
+        require_equals = true,
+    )]
     #[serde(default)]
-    pub(crate) accept_timeouts: bool,
+    pub(crate) accept_timeouts: Option<bool>,
 
     /// Enable the checking of fragments in links.
-    #[arg(long)]
+    #[arg(
+        long,
+        default_missing_value = "true",
+        num_args = 0..=1,
+        require_equals = true,
+    )]
     #[serde(default)]
-    pub(crate) include_fragments: bool,
+    pub(crate) include_fragments: Option<bool>,
 
     /// Website timeout in seconds from connect to response finished
     ///
@@ -777,6 +787,7 @@ impl Config {
         merge!(
             option {
                 accept,
+                accept_timeouts,
                 archive,
                 base,
                 base_url,
@@ -789,6 +800,7 @@ impl Config {
                 host_request_interval,
                 files_from,
                 generate,
+                include_fragments,
                 index_files,
                 min_tls,
                 output,
@@ -819,7 +831,6 @@ impl Config {
                 header,
             },
             bool {
-                accept_timeouts,
                 cache,
                 dump,
                 dump_inputs,
@@ -830,7 +841,6 @@ impl Config {
                 glob_ignore_case,
                 hidden,
                 host_stats,
-                include_fragments,
                 include_mail,
                 include_verbatim,
                 include_wikilinks,
