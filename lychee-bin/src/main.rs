@@ -234,7 +234,7 @@ fn load_cookie_jar(cfg: &Config) -> Result<Option<CookieJar>> {
 /// and we silently discard errors on purpose
 #[must_use]
 fn load_cache(cfg: &Config) -> Option<Cache> {
-    if !cfg.cache {
+    if !cfg.cache.unwrap_or(false) {
         return None;
     }
 
@@ -438,7 +438,7 @@ async fn run(opts: &LycheeOptions) -> Result<i32> {
         };
         output_statistics(stats, &opts.config)?;
 
-        if opts.config.cache {
+        if opts.config.cache.unwrap_or(false) {
             cache.store(LYCHEE_CACHE_FILE)?;
         }
 
