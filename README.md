@@ -429,8 +429,10 @@ Options:
             --default-extension md
             --default-extension html
 
-      --dump
+      --dump[=<DUMP>]
           Don't perform any link checking. Instead, dump all the links extracted from inputs that would be checked
+
+          [possible values: true, false]
 
       --dump-inputs
           Don't perform any link extraction and checking. Instead, dump all input sources from which links would be collected

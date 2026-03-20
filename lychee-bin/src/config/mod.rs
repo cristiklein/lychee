@@ -218,9 +218,9 @@ pub(crate) struct Config {
 
     /// Don't perform any link checking.
     /// Instead, dump all the links extracted from inputs that would be checked
-    #[arg(long)]
+    #[arg(long, default_missing_value = "true", num_args = 0..=1, require_equals = true)]
     #[serde(default)]
-    pub(crate) dump: bool,
+    pub(crate) dump: Option<bool>,
 
     /// Don't perform any link extraction and checking.
     /// Instead, dump all input sources from which links would be collected
@@ -796,6 +796,7 @@ impl Config {
                 cache_exclude_status,
                 cookie_jar,
                 default_extension,
+                dump,
                 github_token,
                 host_concurrency,
                 host_request_interval,
@@ -834,7 +835,6 @@ impl Config {
                 header,
             },
             bool {
-                dump,
                 dump_inputs,
                 exclude_all_private,
                 exclude_link_local,

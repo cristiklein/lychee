@@ -425,7 +425,7 @@ async fn run(opts: &LycheeOptions) -> Result<i32> {
         is_stdin_input,
     };
 
-    let exit_code = if opts.config.dump {
+    let exit_code = if opts.config.dump.unwrap_or(false) {
         commands::dump(params).await?
     } else {
         let (response_stats, cache, exit_code, host_pool) = commands::check(params).await?;
