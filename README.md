@@ -635,9 +635,11 @@ Options:
 
           [possible values: plain, color, emoji, task]
 
-  -n, --no-progress
+  -n, --no-progress[=<NO_PROGRESS>]
           Do not show progress bar.
           This is recommended for non-interactive shells (e.g. for continuous integration)
+
+          [possible values: true, false]
 
       --no-ignore
           Do not skip files that would otherwise be ignored by '.gitignore', '.ignore', or the global ignore file

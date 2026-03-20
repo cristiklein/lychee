@@ -64,7 +64,12 @@ where
     let hide_bar = params.cfg.no_progress || params.is_stdin_input;
     let level = params.cfg.verbose().log_level();
 
-    let progress = Progress::new("Extracting links", hide_bar, level, &params.cfg.mode());
+    let progress = Progress::new(
+        "Extracting links",
+        hide_bar.unwrap_or(false),
+        level,
+        &params.cfg.mode(),
+    );
     let stats_handle = tokio::spawn(collect_responses(
         recv_resp,
         send_req.clone(),
@@ -96,7 +101,7 @@ where
     if params.cfg.suggest {
         let progress = Progress::new(
             "Searching for alternatives",
-            hide_bar,
+            hide_bar.unwrap_or(false),
             level,
             &params.cfg.mode(),
         );

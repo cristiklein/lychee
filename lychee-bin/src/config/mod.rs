@@ -153,9 +153,9 @@ pub(crate) struct Config {
 
     /// Do not show progress bar.
     /// This is recommended for non-interactive shells (e.g. for continuous integration)
-    #[arg(short, long, verbatim_doc_comment)]
+    #[arg(short, long, verbatim_doc_comment, default_missing_value = "true", num_args = 0..=1, require_equals = true)]
     #[serde(default)]
-    pub(crate) no_progress: bool,
+    pub(crate) no_progress: Option<bool>,
 
     /// Show per-host statistics at the end of the run
     #[arg(long)]
@@ -816,6 +816,7 @@ impl Config {
                 max_retries,
                 method,
                 mode,
+                no_progress,
                 retry_wait_time,
                 timeout,
                 user_agent,
@@ -846,7 +847,6 @@ impl Config {
                 include_wikilinks,
                 insecure,
                 no_ignore,
-                no_progress,
                 offline,
                 require_https,
                 skip_missing,
