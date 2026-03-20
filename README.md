@@ -556,8 +556,10 @@ Options:
             --host-request-interval 50ms   # Fast for robust APIs
             --host-request-interval 1s     # Conservative for rate-limited APIs
 
-      --host-stats
+      --host-stats[=<HOST_STATS>]
           Show per-host statistics at the end of the run
+
+          [possible values: true, false]
 
   -i, --insecure
           Proceed for server connections considered insecure (invalid TLS)

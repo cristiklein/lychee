@@ -434,7 +434,7 @@ async fn run(opts: &LycheeOptions) -> Result<i32> {
 
         let stats = OutputStats {
             response_stats,
-            host_stats: opts.config.host_stats.then_some(host_pool.all_host_stats()),
+            host_stats: opts.config.host_stats.unwrap_or(false).then_some(host_pool.all_host_stats()),
         };
         output_statistics(stats, &opts.config)?;
 

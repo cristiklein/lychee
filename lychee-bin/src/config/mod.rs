@@ -158,9 +158,9 @@ pub(crate) struct Config {
     pub(crate) no_progress: Option<bool>,
 
     /// Show per-host statistics at the end of the run
-    #[arg(long)]
+    #[arg(long, default_missing_value = "true", num_args = 0..=1, require_equals = true)]
     #[serde(default)]
-    pub(crate) host_stats: bool,
+    pub(crate) host_stats: Option<bool>,
 
     /// A list of file extensions. Files not matching the specified extensions are skipped.
     ///
@@ -800,6 +800,7 @@ impl Config {
                 host_request_interval,
                 files_from,
                 generate,
+                host_stats,
                 include_fragments,
                 index_files,
                 min_tls,
@@ -841,7 +842,6 @@ impl Config {
                 exclude_private,
                 glob_ignore_case,
                 hidden,
-                host_stats,
                 include_mail,
                 include_verbatim,
                 include_wikilinks,
