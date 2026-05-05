@@ -132,7 +132,7 @@ impl<S: SpanProvider> LinkExtractor<S> {
     /// inside a verbatim element.
     fn filter_verbatim_here(&self) -> bool {
         !self.include_verbatim
-            && (is_verbatim_elem(&self.current_element) || !self.verbatim_stack.is_empty())
+            && (!self.verbatim_stack.is_empty())
     }
 
     /// Flush the current element and attribute values to the links vector.
@@ -539,6 +539,28 @@ mod tests {
             element: Some("a".to_string()),
             attribute: Some("href".to_string()),
             span: span(5, 18),
+        }];
+        let uris = extract_html(input, false);
+        assert_eq!(uris, expected);
+    }
+
+    #[test]
+    fn test_include_script_tags_with_src() {
+       let input = r#"
+        <script src="script.js"></script>
+        <a href="https://example.org">i'm fine</a>
+        "#;
+        let expected = vec![RawUri {
+            text: "script.js".to_string(),
+            element: Some("script".to_string()),
+            attribute: Some("src".to_string()),
+            span: span(2, 22),
+        },
+            RawUri {
+            text: "https://example.org".to_string(),
+            element: Some("a".to_string()),
+            attribute: Some("href".to_string()),
+            span: span(3, 18),
         }];
         let uris = extract_html(input, false);
         assert_eq!(uris, expected);
